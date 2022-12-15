@@ -11,6 +11,12 @@
           :id="key"></task>
 
       </q-list>
+
+      <q-btn
+        round
+        color="primary"
+        size="24px"
+        icon="add" />
     </q-page>
 </template>
   
@@ -28,6 +34,7 @@
     }
   
   </script>
+  
   
     <style>
       .text-strikethrough {

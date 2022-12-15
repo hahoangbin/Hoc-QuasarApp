@@ -1,9 +1,9 @@
-import Vue from 'vue'
+import { store } from 'quasar/wrappers'
 import Vuex from 'vuex'
 
 import tasks from './store-tasks'
 
-Vue.use(Vuex)
+
 
 
 /*
