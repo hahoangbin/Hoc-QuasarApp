@@ -1,6 +1,6 @@
 <template>
     <q-item 
-      @click="updateTask({ id: id, updates: { complated: !task.complated } })"
+      @click="updateTask({ id: id, updates: { completed: !task.completed } })"
       :class="!task.completed ? 'bg-orange-1' : 'bg-pink-3'"
       clickable 
       v-ripple>
@@ -41,7 +41,7 @@
 
         <q-item-section side>
           <q-btn
-            @click="promptToDelete(id)"
+            @click.stop="promptToDelete(id)"
             flat
             round
             dense 
@@ -70,8 +70,9 @@
                   color: 'negative'
                 },
                 persistent: true
-              }) .onOk(() => {               
-                this.deleteTask(id)
+              }) .onOk(() => {          
+                console.log('delete')     
+                // this.deleteTask(id)
             
               })
           }

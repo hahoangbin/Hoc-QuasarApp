@@ -109,6 +109,14 @@ module.exports = configure(function (ctx) {
         'QRouteTab',
         'QCheckbox',
         'QDialog',
+        'QCard',
+        'QCardSection',
+        'QCardActions',
+        'QInput',
+        'QSpace',
+        'QDate',
+        'QPopupProxy',
+        'QTime'
       ],
       directives: [
         'Ripple',
