@@ -116,7 +116,8 @@ module.exports = configure(function (ctx) {
         'QSpace',
         'QDate',
         'QPopupProxy',
-        'QTime'
+        'QTime',
+        'QBanner',
       ],
       directives: [
         'Ripple',

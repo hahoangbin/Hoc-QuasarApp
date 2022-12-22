@@ -12,64 +12,22 @@
 
     <form @submit.prevent="submitForm">
         <q-card-section>
-            <div class="row q-mb-sm" >
-                <q-input 
-                    outlined 
-                    v-model="taskToSubmit.name" 
-                    :rules="[val => !!val || 'Field is required']"
-                    label="Task Name"
-                    ref="name"
-                    class="col" >
+ 
+            <modal-task-name 
+                :name.sync="taskToSubmit.name" 
+                ref="modalTaskName"
+            />
 
-                    <template v-slot:append>
-                        <q-icon 
-                            v-if="taskToSubmit.name"
-                            name="close" 
-                            class="cursor-pointer" 
-                            @click="taskToSubmit.name = ''" />
-                    </template>
-                </q-input>
-            </div>
+            <modal-due-date 
+                :dueDate.sync="taskToSubmit.dueDate"
+                @clear="clearDueDate"
+            />
 
-            <div class="row q-mb-sm">
-                <q-input 
-                    outlined 
-                    label="Due Date"
-                    v-model="taskToSubmit.dueDate" >
-                    <template v-slot:append>
-                        <q-icon 
-                            v-if="taskToSubmit.dueDate"
-                            name="close" 
-                            class="cursor-pointer" 
-                            @click="clearDueDate" />
-                        <q-icon name="event" class="cursor-pointer">
-                            <q-popup-proxy>
-                                <q-date v-model="taskToSubmit.dueDate"/>
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
-                </q-input>
-            </div>
+            <modal-due-time 
+                v-if="taskToSubmit.dueDate"
+                :dueTime.sync="taskToSubmit.dueTime"/>
 
-            <div class="row q-mb-sm">
-                <q-input 
-                    outlined
-                    label="Due Time"
-                    v-model="taskToSubmit.dueTime" >
-                    <template v-slot:append>
-                        <q-icon 
-                            v-if="taskToSubmit.dueTime"
-                            name="close" 
-                            class="cursor-pointer" 
-                            @click="taskToSubmit.dueTime = ''" />
-                        <q-icon name="access_time" class="">
-                            <q-popup-proxy>
-                            <q-time v-model="taskToSubmit.dueTime" />
-                            </q-popup-proxy>
-                        </q-icon>
-                    </template>
-                </q-input>
-            </div>
+
         </q-card-section>
         
         <q-card-actions align="right">
@@ -78,6 +36,8 @@
             color="primary" 
             type="submit" />
         </q-card-actions>
+
+        <pre>{{ taskToSubmit }}</pre>
     </form>
 
   </q-card>
@@ -87,6 +47,7 @@
 import { mapActions } from 'vuex';
 
 export default {
+    props: ['task', 'id'],
     data() {
         return {
             taskToSubmit: {
@@ -98,10 +59,10 @@ export default {
         };
     },
     methods: {
-        ...mapActions('tasks', []),
+        ...mapActions('tasks', ['addTask']),
         submitForm() {
-            this.$refs.name.validate()
-            if (!this.$refs.name.hasError) {
+            this.$refs.modalTaskName.$refs.name.validate()
+            if (!this.$refs.modalTaskName.$refs.name.hasError) {
                 this.submitTask()
             }
         },
@@ -113,6 +74,15 @@ export default {
             this.taskToSubmit.dueDate = ''
             this.taskToSubmit.dueTime = ''
         }
+    },
+    components: {
+        'modal-header': require('components/Tasks/Modals/Shared/ModalHeader.vue').default,
+        'modal-task-name': require('components/Tasks/Modals/Shared/ModalTaskName.vue').default,
+        'modal-due-date': require('components/Tasks/Modals/Shared/ModalDueDate.vue').default,
+        'modal-due-time': require('components/Tasks/Modals/Shared/ModalDueTime.vue').default,
+    },
+    monted() {
+        this,taskToSubmit = Object.assign({}, this,task)
     }
 
 }
